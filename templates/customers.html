@@ -1,0 +1,52 @@
+
+{% extends "header.html" %}
+
+
+{% block body %}
+<table id= "example2" class = "table table-striped">
+   <caption>Registered Customers</caption>
+   
+   <thead>
+
+      <tr>
+         <th>Email</th>
+         <th>Mobile Number</th>
+         <th> Name </th>
+         <th> Date Of Birth </th>
+         <th> Registered Store </th>
+
+        
+      </tr>
+   </thead>
+   
+   <tbody>
+
+{% for x in users %}
+<tr>
+
+ <td> {{ x.email }} </td>
+ <td> {{ x.mobile_num }} </td>
+ <td> {{ x.name }} </td>
+ <td> {{ x.date_of_birth }} </td>
+ <td> {{ x.store_id }} </td>
+
+
+
+
+</tr>
+
+{% endfor %}
+   </tbody>
+   
+</table>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    $('#example2').DataTable();
+} );
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "header.html" %}
+
+
+{% block body %}
+
+    <form action="/add-customer/" method="post" >
+        <label for="formGroupExampleInput">{{form.email.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="email" name="email" placeholder= "Customer Email" type="email">
+             {% if form.errors["email"] %}
+                 <ul class="errors">
+     {% for error in form.errors["email"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+        <label for="formGroupExampleInput">{{form.name.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="name" name="name" placeholder= "Customer Name" type="text">
+             {% if form.errors["name"] %}
+                 <ul class="errors">
+     {% for error in form.errors["name"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+        <label for="formGroupExampleInput">{{form.mobile_num.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="name" name="mobile_num" placeholder= "Mobile Number" type="text">
+             {% if form.errors["mobile_num"] %}
+                 <ul class="errors">
+     {% for error in form.errors["mobile_num"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+        <label for="formGroupExampleInput">{{form.date_of_birth.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="date_of_birth" name="date_of_birth" placeholder= "Date Of Birth" type="date">
+             {% if form.errors["date_of_birth"] %}
+                 <ul class="errors">
+     {% for error in form.errors["date_of_birth"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+
+<div class="form-group">
+  <label for="sel1">{{form.gender.label}}</label>
+{{ form.gender }}
+             {% if form.errors["gender"] %}
+                 <ul class="errors">
+     {% for error in form.errors["gender"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+
+<div class="form-group">
+  <label for="sel2">{{form.marketing_source.label}}</label>
+{{ form.marketing_source }}
+             {% if form.errors["marketing_source"] %}
+                 <ul class="errors">
+     {% for error in form.errors["marketing_source"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+
+<input type="submit" class="btn btn-info" value="Submit">
+
+</form>
+
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+
+<script>
+
+document.getElementById("marketing_source").className += 'selectpicker';
+document.getElementById("marketing_source").setAttribute('data-live-search', 'true');
+document.getElementById("gender").className += 'selectpicker';
+document.getElementById("gender").setAttribute('data-live-search', 'true');
+
+
+</script>
+{% endblock %}
+

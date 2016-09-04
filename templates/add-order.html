@@ -1,0 +1,170 @@
+{% extends "header.html" %}
+
+
+{% block body %}
+    <style type="text/css">
+    .container {
+        width: 500px;
+        clear: both;
+    }
+    .container input {
+        width: 100%;
+        clear: both;
+    }
+
+    </style>
+
+    <form action="/add-order/" method="post" class="form-inline" role="form">
+        <label for="formGroupExampleInput">{{form.order_id.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="order_id" name="order_id" placeholder= "Order Id" type="text">
+             {% if form.errors["order_id"] %}
+                 <ul class="errors">
+     {% for error in form.errors["order_id"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+         </br>
+        </br>
+        <label for="formGroupExampleInput">{{form.item_name.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="item_name" name="item_name" placeholder= "Item Name" type="text">
+             {% if form.errors["item_name"] %}
+                 <ul class="errors">
+     {% for error in form.errors["item_name"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+        <label for="formGroupExampleInput">{{form.item_cost.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="item_cost" name="item_cost" placeholder= "Item cost" type="text" value=0>
+             {% if form.errors["item_cost"] %}
+                 <ul class="errors">
+     {% for error in form.errors["item_cost"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+</br>
+</br>
+
+
+
+<div class="form-group">
+  <label for="sel1">{{form.custmer_id.label}}</label>
+{{form.custmer_id  }}          
+{% if form.errors["custmer_id"] %}
+                 <ul class="errors">
+     {% for error in form.errors["custmer_id"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+
+<div class="form-group">
+  <label for="sel2">{{form.order_category.label}}</label>
+{{form.order_category }}
+  </select>
+
+             {% if form.errors["order_category"] %}
+                 <ul class="errors">
+     {% for error in form.errors["order_category"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+<div class="form-group">
+  <label for="sel2">{{form.website.label}}</label>
+
+{{form.website}}
+             {% if form.errors["website"] %}
+                 <ul class="errors">
+     {% for error in form.errors["website"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+</br>
+</br>
+        <label for="formGroupExampleInput">{{form.website_shipping_cost.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="website_shipping_cost" name="website_shipping_cost" placeholder= "Website Shipping Cost" type="text" value="0" >
+             {% if form.errors["website_shipping_cost"] %}
+                 <ul class="errors">
+     {% for error in form.errors["website_shipping_cost"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+        <label for="formGroupExampleInput">{{form.linq_shipping_cost.label}}</label>
+        <div class="form-group">
+            <input class="form-control" id="linq_shipping_cost" name="linq_shipping_cost" placeholder= "LinQ Shipping Cost" type="text" value="0" >
+             {% if form.errors["linq_shipping_cost"] %}
+                 <ul class="errors">
+     {% for error in form.errors["linq_shipping_cost"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+
+
+
+        <label for="formGroupExampleInput">{{form.advance_amount.label}}</label>
+
+        <div class="form-group">
+            <input class="form-control" id="advance_amount" name="advance_amount" placeholder= "Advance Amount" type="text" value="0" >
+             {% if form.errors["advance_amount"] %}
+                 <ul class="errors">
+     {% for error in form.errors["advance_amount"] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+           {% endif %}
+        </div>
+ <label for="formGroupExampleInput">Total Order Amount</label>
+        <div class="form-group">
+            <input class="form-control" id="total_amount" name="total_amount" placeholder= "Total Order Amount" type="text" readonly>
+        </div>
+
+</br>
+</br>
+<input type="submit" class="btn btn-info" value="Submit">
+
+</form>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+document.getElementById("item_cost").defaultValue = "0";
+document.getElementById("website_shipping_cost").defaultValue = "0";
+document.getElementById("linq_shipping_cost").defaultValue = "0";
+document.getElementById("advance_amount").defaultValue = "0";
+document.getElementById("custmer_id").className += 'selectpicker';
+document.getElementById("custmer_id").setAttribute('data-live-search', 'true');
+document.getElementById("order_category").className += 'selectpicker';
+document.getElementById("order_category").setAttribute('data-live-search', 'true');
+document.getElementById("website").className += 'selectpicker';
+document.getElementById("website").setAttribute('data-live-search', 'true');
+
+
+</script>
+{% endblock %}

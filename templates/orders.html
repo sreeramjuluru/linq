@@ -1,0 +1,236 @@
+{% extends "header.html" %}
+
+{% block body %}
+<h1> Orders Placed </h1>
+<div id = "alert_placeholder"></div>
+
+<table id="example" class = "table table-striped">
+
+   <thead>
+
+      <tr>
+               <th>Ordered Time</th>
+
+         <th>Order Id</th>
+         <th>Item Name</th>
+         <th> Item Cost </th>
+                 <th> Website Shipping Cost  </th>
+         <th> Total Cost </th>
+<th> Customer </th>
+         <th> Order Action </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+
+
+{% for x in orders %}
+<tr id = {{"order_num1_" + x.linq_order_num|string}}>
+
+ <td> {{ x.order_date_time }} </td>
+ <td> {{ x.order_id }} </td>
+ <td> {{ x.item_name }} </td>
+ <td> {{ x.item_cost }} </td>
+ <td> {{ x.website_shipping_cost }} </td>
+
+<td>  {{x.item_cost + x.website_shipping_cost + x.linq_shipping_cost }}  </td>
+<td> {{ x.name ,x.mobile_num }} </td>
+
+<td>
+
+<div id = {{ "receive_order_" +  x.linq_order_num|string }}>
+        <a role="presentation" data-toggle="modal" data-target={{"#exampleModal1_"+ x.linq_order_num|string  }}  href="#"><span class="glyphicon glyphicon-ok"></span> Receive Order   </a>
+                        <div class="modal fade" id={{"exampleModal1_"+ x.linq_order_num|string }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                          <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel1">Receive Order</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                          <div class="container-fluid">
+                                                  <form  action="javascript:void(0);"   class="form-inline"  id="receive-order-form">
+                                                        By Receiving you agree that you have received the item <b> {{ x.item_name }} </b> at the store.
+</br>
+Order Id  <b> {{ x.order_id }}   </b>
+</br> 
+                                                        <input class="btn btn-primary center-block" onclick="execute({{x.linq_order_num}})" type="submit" id= 'receive-btn' value="Receive" >
+                                                  </form>
+
+                                        </div>
+                                  </div>
+
+                                </div>
+                          </div>
+                        </div>
+
+
+</div>
+<div id={{ "deliver-order_" +  x.linq_order_num|string }}>
+        <a role="presentation" data-toggle="modal" data-target={{"#exampleModal29_"+  x.linq_order_num|string  }}   href="#"><span class="glyphicon glyphicon-ok"></span> Deliver Order   </a>
+                        <div class="modal fade" id={{ "exampleModal29_"+  x.linq_order_num|string  }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel29" aria-hidden="true">
+                          <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel29">Deliver Order</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                          <div class="container-fluid">
+                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form">
+                                                        By Delivering you agree that you have received the remaining amount  <b> {{ x.item_cost + x.website_shipping_cost + x.linq_shipping_cost  - x.advance_amount }} </b> from the customer
+</br>
+Order Id  <b> {{ x.order_id }}   </b>
+</br>
+                                                        <input class="btn btn-primary center-block" onclick="return execute2({{x.linq_order_num}})" type="submit" id= 'receive-btn' value="Deliver" >
+                                                  </form>
+
+                                        </div>
+                                  </div>
+
+                                </div>
+                          </div>
+                        </div>
+</div>
+<div id={{"order-delivered_"+  x.linq_order_num|string }}>
+ <a role="presentation" data-toggle="modal" data-target="#" ><span class="glyphicon glyphicon-ok-sign"></span>  Order Delivered  </a>
+</div>
+
+<div id={{"return-initiated_"+  x.linq_order_num|string }}>
+ <a role="presentation" data-toggle="modal" data-target="#" ><span class="glyphicon glyphicon-ok-sign"></span>  Return Initiated  </a>
+</div>
+
+</td>
+</tr>
+
+{% endfor %}
+   </tbody>
+
+</table>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+console.log("palampir");
+
+
+{% for order in orders %}
+
+var receive_order_div = document.getElementById("receive_order_" + "{{ order.linq_order_num }}" );
+var deliver_order_div = document.getElementById("deliver-order_" + "{{ order.linq_order_num }}" );
+var delivered_div = document.getElementById("order-delivered_"+  "{{ order.linq_order_num }}");
+var return_div = document.getElementById("return-initiated_" + "{{ order.linq_order_num }}");
+console.log( "{{order.order_status_id}}");
+
+if ( "{{order.order_status_id}}" == 1) {
+deliver_order_div.style.display = "none";
+delivered_div.style.display = "none";
+return_div.style.display = "none";
+
+};
+
+if ( "{{order.order_status_id}}" == 2) {
+receive_order_div.style.display = "none";
+delivered_div.style.display = "none";
+return_div.style.display = "none";
+
+
+};
+if ( "{{order.order_status_id}}" == 3) {
+receive_order_div.style.display = "none";
+deliver_order_div.style.display = "none";
+return_div.style.display = "none";
+
+
+};
+
+if ( "{{order.order_status_id}}" == 4) {
+receive_order_div.style.display = "none";
+deliver_order_div.style.display = "none";
+delivered_div.style.display = "none";
+
+
+};
+
+
+{% endfor %}
+
+
+
+function execute(linq_order_num) {
+console.log("Chimpiri");
+var result = "";
+var tableRow = document.getElementById("order_num1_" + String(linq_order_num)); 
+console.log(tableRow);
+console.log("lup");
+console.log(tableRow);
+var modalId = "exampleModal1_" +  String(linq_order_num); 
+console.log(modalId);
+jQuery.ajax ({
+    url: "/receive-order/",
+    type: "POST",
+    data: JSON.stringify({"linq_order_num":linq_order_num}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+        result = data;
+      console.log("receiveddy");
+                $("#" + modalId).modal('hide');
+      console.log("After modal hide");
+ $('#alert_placeholder').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">&times;</a><span>Successfully received  the product</span></div>');
+console.log("alert done");
+var htmlElement =  document.getElementById("deliver-order_"+ String(linq_order_num));
+var cln = htmlElement.cloneNode(true);
+cln.style.display = null;
+tableRow.cells[7].innerHTML = cln.outerHTML;
+
+    }
+});
+return result;
+}
+
+function execute2(linq_order_num) {
+console.log("Chimpiri");
+var tableRow = document.getElementById("order_num1_" + String(linq_order_num)); 
+var result = "";
+var modalId = "exampleModal29_" +  String(linq_order_num); 
+console.log(modalId);
+jQuery.ajax ({
+    url: "/deliver-order/",
+    type: "POST",
+    data: JSON.stringify({"linq_order_num":linq_order_num}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+       console.log("haha after delovering");
+        $("#" + modalId).modal('hide');
+ $('#alert_placeholder').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">&times;</a><span>Successfully delivered the product</span></div>');
+var htmlElement =   document.getElementById("order-delivered_"+ String(linq_order_num));
+var cln = htmlElement.cloneNode(true);
+cln.style.display = null;
+tableRow.cells[7].innerHTML = cln.outerHTML;
+    }
+});
+return result;
+
+}
+
+
+</script>
+
+{% endblock %}
+

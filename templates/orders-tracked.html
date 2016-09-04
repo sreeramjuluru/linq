@@ -1,0 +1,56 @@
+
+
+
+{% extends "header.html" %}
+
+
+{% block body %}
+<table id="example3" class = "table table-striped">
+   <caption>Tracked Orders from Amazon. You will be paid commissions on these orders</caption>
+
+   <thead>
+
+      <tr>
+         <th>Title</th>
+         <th>Price</th>
+         <th> Date </th>
+         <th> Quantity </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+{% for x in items %}
+<tr>
+
+ <td> {{ x.title }} </td>
+ <td> {{ x.price }} </td>
+ <td> {{ x.date.strftime('%Y-%m-%d') }} </td>
+ <td> {{ x.qty }} </td>
+
+
+
+
+</tr>
+
+{% endfor %}
+   </tbody>
+
+</table>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+$(document).ready(function() {
+    $('#example3').DataTable();
+} );
+
+
+</script>
+
+{% endblock%}

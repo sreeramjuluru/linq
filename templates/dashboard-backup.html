@@ -1,0 +1,104 @@
+{% extends "header.html" %}
+
+
+{% block body %}
+
+
+<div class = "tab-content">
+   <div class = "tab-pane fade in active" id = "home">...</div>
+   <div class = "tab-pane fade" id = "svn">...</div>
+   <div class = "tab-pane fade" id = "ios">...</div>
+   <div class = "tab-pane fade" id = "java">...</div>
+</div>
+
+
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a id="home" href="#home" aria-controls="customers" role="tab" data-toggle="tab">Customers</a></li>
+    <li role="presentation"><a href="#orders" id="orders" aria-controls="orders" role="tab" data-toggle="tab" id="orders">Orders</a></li>
+    <li role="presentation"><a href="#returns" aria-controls="returns" role="tab" data-toggle="tab" id="returns">Returns</a></li>
+
+    <li role="presentation"><a href="#messages" aria-controls="reports" role="tab" data-toggle="tab">Reports</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+<ul class="nav nav-pills" style="margin-top: 5px; margin-bottom: 5px; height: 35px; margin-right: 15px">
+
+<li role="presentation"><a href="/add-customer/">Add Customer</a></li>
+
+<li role="presentation"><a href="/customers/">Registered Customers</a></li>
+
+
+
+
+</ul>
+
+  </div>
+</div>
+
+<div class="tab-content">
+
+  <div id="orders" class="tab-pane fade">
+<ul class="nav nav-pills" style="margin-top: 5px; margin-bottom: 5px; height: 35px; margin-right: 15px">
+
+<li role="presentation"><a href="/add-order/">Add Order</a></li>
+
+<li role="presentation"><a href="/orders/">Orders</li>
+
+
+
+
+</ul>
+</div>
+
+</div>
+<div class="tab-content">
+
+  <div id="messages" class="tab-pane fade">
+<ul class="nav nav-pills" style="margin-top: 5px; margin-bottom: 5px; height: 35px; margin-right: 15px">
+
+<li role="presentation"><a href="/orders-tracked/"> Orders tracked by day</a></li>
+
+
+
+
+
+</ul>
+
+
+
+  </div>
+</div>
+<div class="tab-content">
+
+  <div id="returns" class="tab-pane fade">
+<ul class="nav nav-pills" style="margin-top: 5px; margin-bottom: 5px; height: 35px; margin-right: 15px">
+
+<li role="presentation"><a href="/add-return/"> Add return</a></li>
+
+<li role="presentation"><a href="/returns/"> Returns </a></li>
+
+
+
+
+</ul>
+
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

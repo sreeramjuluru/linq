@@ -1,0 +1,89 @@
+{% extends "header.html" %}
+
+{% block body %}
+<h1> Orders Placed </h1>
+<div id = "alert_placeholder"></div>
+
+<table id="example" class = "table table-striped">
+
+   <thead>
+
+      <tr>
+               <th>Ordered Time</th>
+
+         <th>Order Id</th>
+         <th>Item Name</th>
+         <th> Item Cost </th>
+                 <th> Website Shipping Cost  </th>
+         <th> Total Cost </th>
+<th> Customer </th>
+         <th> Return Order Action </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+
+
+{% for x in returns %}
+<tr  id = {{"order_num_" + x.id|string}} >
+
+ <td> {{ x.order_date_time }} </td>
+ <td> {{ x.order_id }} </td>
+ <td> {{ x.item_name }} </td>
+ <td> {{ x.item_cost }} </td>
+ <td> {{ x.website_shipping_cost }} </td>
+
+<td>  {{x.item_cost + x.website_shipping_cost + x.linq_shipping_cost }}  </td>
+<td> {{ x.name ,x.mobile_num }} </td>
+
+<td id="order-action">
+<div id = {{"action_placeholder_" +  x.id|string}}></div>
+
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+
+
+console.log("hello");
+var returns = "{{returns}}";
+{% for return1 in returns %} 
+console.log("{{return1.id}}");
+
+var x = '<a role="presentation" id="return-reached" data-toggle="modal" data-target="#exampleModal2" href="#"><span class="glyphicon glyphicon-ok"></span> Return Reached the Destination   </a> <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content">                                  <div class="modal-header">                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                        <h4 class="modal-title" id="exampleModalLabel2"> Return Reached the Destination </h4>                                  </div>                                  <div class="modal-body">                                          <div class="container-fluid">                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form2">                                                       "{{return1.item_name }}" reached the Destination</br>Order Id  <b> "{{ return1.order_id }}"   </b></br>                                                        <input class="btn btn-primary center-block" onclick="execute2({{return1.id}},  {{return1.item_name }}, {{ return1.order_id }})" type="submit" id= "receive-btn" value="Return reached Destination" >                                                  </form>                                        </div>                                  </div>                                </div>                          </div>                        </div>'
+
+var y =         '<a role="presentation" data-toggle="modal" data-target="#exampleModal1" href="#"><span class="glyphicon glyphicon-ok"></span> Dispatch Return   </a>                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">                          <div class="modal-dialog">                                <div class="modal-content">                                  <div class="modal-header">                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                        <h4 class="modal-title" id="exampleModalLabel1">Dispatch Return</h4>                                  </div>                                  <div class="modal-body">                                          <div class="container-fluid">                                                  <form action="javascript:void(0);"  class="form-inline"  id="receive-order-form">                                                        You returned the item  <b> "{{ return1.item_name }}" </b></br>Please enter the courier tracking details.</br>  <input type="text" name="Courier Tracking" id="courier_details">                                                        <input class="btn btn-primary center-block" onclick="execute("{{return1.id}}")" type="submit" id= "receive-btn" value="Dispatch" >                                                  </form>                                        </div>                                  </div>                                </div>                          </div>                        </div>'
+
+var z = '<a role="presentation" id="receive-refund" data-toggle="modal" data-target="#exampleModal3" href="#"><span class="glyphicon glyphicon-ok"></span> Yet to receive refund  </a>                        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">                          <div class="modal-dialog">                                <div class="modal-content">                                  <div class="modal-header">                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                        <h4 class="modal-title" id="exampleModalLabel3"> Refund Received Confirmation  </h4>                                  </div>                                  <div class="modal-body">                                          <div class="container-fluid">                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form3">                                                       Refund Received for "{{return1.item_name }}"</br>Order Id  <b> "{{ return1.order_id }}"  </b></br>                                                        <input class="btn btn-primary center-block" onclick="execute3("{{return1.id}}")" type="submit" id= "receive-btn" value="Refund Received " >                                                  </form>                                        </div>                                  </div>                                </div>                          </div>                        </div>'
+
+var z1 = ' <a id="refund-received" role="presentation" data-toggle="modal" data-target="#exampleModal9" ><span class="glyphicon glyphicon-ok-sign"></span>  ReturnComplete - Refund Received Sucessfully  </a>'
+console.log(y);
+var elem = document.getElementById("{{'action_placeholder_' +  return1.id|string}} ");
+console.log(elem);
+
+if ("{{return1.order_status_id}}" == 4 && "{{return1.return_status_id}}" == 1) {
+var p = 'action_placeholder_' + "{{return1.id}}";
+console.log(p);
+var elem = document.getElementById(p);
+elem.innerHTML = x;
+}
+
+{% endfor %}
+
+
+</script>
+
+{% endblock %}
+

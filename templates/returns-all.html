@@ -1,0 +1,242 @@
+{% extends "header.html" %}
+
+{% block body %}
+<h1> Orders Placed </h1>
+<div id = "alert_placeholder"></div>
+
+<table id="example" class = "table table-striped">
+
+   <thead>
+
+      <tr>
+               <th>Ordered Time</th>
+
+         <th>Order Id</th>
+         <th>Item Name</th>
+         <th> Item Cost </th>
+                 <th> Website Shipping Cost  </th>
+         <th> Total Cost </th>
+<th> Customer </th>
+         <th> Return Order Action </th>
+
+
+      </tr>
+   </thead>
+
+   <tbody>
+
+
+
+{% for x in returns %}
+<tr  id = {{"order_num_" + x.id|string}} >
+
+ <td> {{ x.order_date_time }} </td>
+ <td> {{ x.order_id }} </td>
+ <td> {{ x.item_name }} </td>
+ <td> {{ x.item_cost }} </td>
+ <td> {{ x.website_shipping_cost }} </td>
+
+<td>  {{x.item_cost + x.website_shipping_cost + x.linq_shipping_cost }}  </td>
+<td> {{ x.name ,x.mobile_num }} </td>
+
+<td id={{"order-action_" + x.id|string }}>
+{% if  x.order_status_id ==  4 and x.return_status_id ==1  %}
+
+        <a role="presentation" data-toggle="modal" data-target="#exampleModal1" href="#"><span class="glyphicon glyphicon-ok"></span> Dispatch Return   </a>
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                          <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel1">Dispatch Return</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                          <div class="container-fluid">
+                                                  <form action="javascript:void(0);"  class="form-inline"  id="receive-order-form">
+                                                        You returned the item  <b> {{ x.item_name }} </b>
+</br>
+Please enter the courier tracking details.
+</br>
+  <input type="text" name="Courier Tracking" id="courier_details">
+
+                                                        <input class="btn btn-primary center-block" onclick="execute({{x.id}} )" type="submit" id= 'receive-btn' value="Dispatch" >
+                                                  </form>
+
+                                        </div>
+                                  </div>
+
+                                </div>
+                          </div>
+                        </div>
+
+
+
+{% elif x.order_status_id ==  4 and  x.return_status_id ==2  %}
+
+
+        <a role="presentation" id="return-reached" data-toggle="modal" data-target="#exampleModal2" href="#"><span class="glyphicon glyphicon-ok"></span> Return Reached the Destination   </a>
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                          <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel2"> Return Reached the Destination </h4>
+                                  </div>
+                                  <div class="modal-body">
+                                          <div class="container-fluid">
+                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form2">
+                                                       {{x.item_name }} reached the Destination  
+</br>
+Order Id  <b> {{ x.order_id }}   </b>
+</br>
+                                                        <input class="btn btn-primary center-block" onclick="execute2({{x.id}})" type="submit" id= 'receive-btn' value="Return reached Destination" >
+                                                  </form>
+
+                                        </div>
+                                  </div>
+
+                                </div>
+                          </div>
+                        </div>
+{% elif x.order_status_id ==  4 and  x.return_status_id ==3 %}
+
+        <a role="presentation" id="receive-refund" data-toggle="modal" data-target="#exampleModal3" href="#"><span class="glyphicon glyphicon-ok"></span> Yet to receive refund  </a>
+                        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                          <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="exampleModalLabel3"> Refund Received Confirmation  </h4>
+                                  </div>
+                                  <div class="modal-body">
+                                          <div class="container-fluid">
+                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form3">
+                                                       Refund Received for {{x.item_name }} 
+</br>
+Order Id  <b> {{ x.order_id }}   </b>
+</br>
+                                                        <input class="btn btn-primary center-block" onclick="execute3({{x.id}})" type="submit" id= 'receive-btn' value="Refund Received " >
+                                                  </form>
+
+                                        </div>
+                                  </div>
+
+                                </div>
+                          </div>
+                        </div>
+
+{% else %}
+
+
+ <a id="refund-received" role="presentation" data-toggle="modal" data-target="#exampleModal3" ><span class="glyphicon glyphicon-ok-sign"></span>  ReturnComplete - Refund Received Sucessfully  </a>
+
+
+{% endif %}
+
+</td>
+</tr>
+
+{% endfor %}
+   </tbody>
+
+</table>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+
+function execute(return_id) {
+console.log("Chimpirijbfjdb");
+var result = "";
+var row = document.getElementById("order_num_" + String(return_id));
+var mod= document.getElementById("return-reached");
+var courier_details = document.getElementById("receive-order-form").elements["courier_details"].value;
+var nextElement = '<a role="presentation" id="return-reached" data-toggle="modal" data-target="#exampleModal2" href="#"><span class="glyphicon glyphicon-ok"></span> Return Reached the Destination   </a> <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content">                                  <div class="modal-header">                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                        <h4 class="modal-title" id="exampleModalLabel2"> Return Reached the Destination </h4>                                  </div>                                  <div class="modal-body">                                          <div class="container-fluid">                                                  <form action="javascript:void(0);"  class="form-inline"  id="deliver-order-form2"> The Item has  reached the Destination            <input class="btn btn-primary center-block" onclick="execute2({{return_id}})" type="submit" id= "receive-btn" value="Return reached Destination" >                                                  </form>                                        </div>                                  </div>                                </div>                          </div>                        </div>'
+
+console.log(nextElement);
+console.log(courier_details)
+jQuery.ajax ({
+    url: "/dispatch-return/",
+    type: "POST",
+    data: JSON.stringify({"return_id":return_id,"courier_details": courier_details}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+$("#exampleModal1").modal('hide');
+$('#alert_placeholder').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">?~W</a><span>Successfully dispatched the return</span></div>');
+
+row.cells[7].innerHTML= nextElement;
+
+    }
+});
+return result;
+}
+
+function execute2(return_id) {
+console.log("Chimpiri");
+console.log(return_id);
+var result = "";
+
+var mod = document.getElementById("receive-refund");
+var row = document.getElementById("order_num_" + String(return_id));
+
+jQuery.ajax ({
+    url: "/return-destination/",
+    type: "POST",
+    data: JSON.stringify({"return_id":return_id}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+       console.log(data);
+$("#exampleModal2").modal('hide');
+
+ $('#alert_placeholder').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">?~W</a><span>Successfully return reached the destination</span></div>');
+row.cells[7].innerHTML= xy;
+
+        
+    }
+});
+return result;
+
+}
+
+function execute3(return_id) {
+console.log("kaleyam");
+console.log("Chimpiri");
+var result = "";
+var mod = document.getElementById("refund-received");
+var row = document.getElementById("order_num_" + String(return_id));
+jQuery.ajax ({
+    url: "/refund-received/",
+    type: "POST",
+    data: JSON.stringify({"return_id":return_id}),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function(data){
+        console.log(data);
+$("#exampleModal3").modal('hide');
+ $('#alert_placeholder').html('<div class="alert alert-success"><a class="close" data-dismiss="alert">?~W</a><span>Successfully received the refund</span></div>');
+row.cells[7].innerHTML= mod.outerHTML;
+
+
+    }
+});
+return result;
+
+}
+
+
+</script>
+
+{% endblock %}
+
